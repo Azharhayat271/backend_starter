@@ -9,12 +9,8 @@ const app = express();
 app.use(express.json());
 
 
-const corsOptions = {
-  origin: '/*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-};
-
-app.use(cors(corsOptions));
+// Enable CORS for all origins
+app.use(cors());
 
 //connet to mongoDB
 connectDB();
