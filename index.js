@@ -1,33 +1,33 @@
-const express= require("express");
-const app=express();
-const mongoose= require("mongoose");
+const express = require("express");
+const connectDB = require("./config/connection");
+const cors = require('cors');
+require("dotenv").config();
+
+
+const app = express();
+
 app.use(express.json());
 
 
-const cors = require('cors');
-
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: '/*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 };
-// http://127.0.0.1:5500
+
 app.use(cors(corsOptions));
 
+//connet to mongoDB
+connectDB();
+
+const userRoutes = require("./routes/user");
+
+// All routes
+app.use("/api/users", userRoutes);
 
 
 
-mongoose.connect('mongodb://localhost:27017/lab')
-.then(()=> console.log("connected to mongodb"))
-.catch(err=> console.error("Could not connect to mongodb",err))
-
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
-  console.log('app listening at 5000');
+  console.log(`App listening at ${port}`);
 });
-
-
-
-
-
-
