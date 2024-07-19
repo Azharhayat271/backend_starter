@@ -116,13 +116,13 @@ exports.login = async (req, res) => {
         const payload = {
             user: {
                 id: user.id,
-                email: user.email // You can add more user details to the payload if needed
+                email: user.email 
             }
         };
 
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
             if (err) throw err;
-            res.status(200).json({ success: true, token });
+            res.status(200).json({ success: true, token ,user});
         });
 
     } catch (error) {

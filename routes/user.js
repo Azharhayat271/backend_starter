@@ -11,7 +11,9 @@ router.get("/verify-email", verifyEmailLink);
 router.post("/login", login)
 router.post("/forgot-password", forgotPassword)
 router.post("/reset-password", resetPassword)
-router.get("/get-all-users", authenticateJWT, getAllUsers)
+// router.get("/get-all-users", authenticateJWT, getAllUsers)
+router.get("/get-all-users", getAllUsers)
+
 
 
 
