@@ -3,6 +3,8 @@ const sendEmail = require("../utils/sendEmail");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { sendResetPasswordEmail } = require('../utils/forgetPassword');
+const dumbPasswords = require('dumb-passwords');
+
 
 
 
@@ -24,6 +26,11 @@ const generateResetToken = (user) => {
 exports.registerUser = async (req, res) => {
     try {
         const { name, email, username, password, gender, phoneNo } = req.body;
+
+        // Check if the password is common
+        if (dumbPasswords.check(password)) {
+            return res.status(400).json({ success: false, message: "Your password is found in the Leak Password Dictonary. Please use a stronger password." });
+        }
 
         const user = new User({ name, email, username, password, gender, phoneNo });
 
