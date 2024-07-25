@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'active',
+        default: 'created',
     },
     emailVerificationCode: {
         type: String,
