@@ -113,6 +113,11 @@ exports.login = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Invalid credentials' });
         }
 
+        // Check user status
+        if (user.status !== 'approved') {
+            return res.status(403).json({ success: false, message: 'Your account is not approved or is blocked' });
+        }
+
         // Verify password
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
@@ -129,7 +134,7 @@ exports.login = async (req, res) => {
 
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
             if (err) throw err;
-            res.status(200).json({ success: true, token ,user});
+            res.status(200).json({ success: true, token, user });
         });
 
     } catch (error) {
@@ -137,6 +142,7 @@ exports.login = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 };
+
 
 exports.forgotPassword = async (req, res) => {
     const { email } = req.body;
