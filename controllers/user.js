@@ -208,5 +208,64 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
+// Update user by ID
+exports.updateUserById = async (req, res) => {
+    const { userId } = req.params;
+    const { name, email, username, gender, phoneNo } = req.body;
+
+    try {
+        // Find user by ID and update the provided fields
+        const user = await User.findByIdAndUpdate(userId, { name, email, username, gender, phoneNo }, { new: true, runValidators: true });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        res.status(200).json({ success: true, user });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
+// Delete user by ID
+exports.deleteUserById = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        // Find user by ID and remove
+        const user = await User.findByIdAndRemove(userId);
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        res.status(200).json({ success: true, message: 'User deleted successfully' });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
+// Get user by ID
+exports.getUserById = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        // Find user by ID
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        res.status(200).json({ success: true, user });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
+
 
 

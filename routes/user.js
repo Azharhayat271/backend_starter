@@ -1,7 +1,7 @@
 const express = require("express");
 const authenticateJWT = require('../middleware/auth');
 
-const { registerUser, verifyEmail, verifyEmailLink, login, forgotPassword, resetPassword, getAllUsers } = require("../controllers/user"); // Adjust the path as necessary
+const { registerUser, verifyEmail, verifyEmailLink, login, forgotPassword, resetPassword, getAllUsers, updateUserById,deleteUserById,getUserById } = require("../controllers/user"); // Adjust the path as necessary
 
 const router = express.Router();
 
@@ -13,6 +13,9 @@ router.post("/forgot-password", forgotPassword)
 router.post("/reset-password", resetPassword)
 // router.get("/get-all-users", authenticateJWT, getAllUsers)
 router.get("/get-all-users", getAllUsers)
+router.put("/update-user/:userId", updateUserById)
+router.delete("/delete-user/:userId", deleteUserById)
+router.get("/get-user/:userId", getUserById)
 
 
 
