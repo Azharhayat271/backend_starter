@@ -209,13 +209,19 @@ exports.getAllUsers = async (req, res) => {
 };
 
 // Update user by ID
+// Update user by ID
 exports.updateUserById = async (req, res) => {
     const { userId } = req.params;
-    const { name, email, username, gender, phoneNo } = req.body;
+    const { name, email, username, gender, phoneNo, image } = req.body; // Added image field
 
     try {
+        // Validate the provided data (optional)
+        if (!name || !email || !username || !gender || !phoneNo) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+
         // Find user by ID and update the provided fields
-        const user = await User.findByIdAndUpdate(userId, { name, email, username, gender, phoneNo }, { new: true, runValidators: true });
+        const user = await User.findByIdAndUpdate(userId, { name, email, username, gender, phoneNo, image }, { new: true, runValidators: true });
 
         if (!user) {
             return res.status(404).json({ success: false, message: 'User not found' });
