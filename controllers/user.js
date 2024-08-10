@@ -4,10 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { sendResetPasswordEmail } = require('../utils/forgetPassword');
 const dumbPasswords = require('dumb-passwords');
-
-
-
-
+const moment = require('moment');
 //methods 
 
 // Function to generate JWT token for password reset
@@ -20,7 +17,6 @@ const generateResetToken = (user) => {
 };
 
 //API
-
 
 // Register user
 exports.registerUser = async (req, res) => {
@@ -262,6 +258,42 @@ exports.getUserById = async (req, res) => {
         res.status(200).json({ success: true, user });
     } catch (error) {
         console.error(error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
+// Get user statistics
+exports.getUserStatistics = async (req, res) => {
+    try {
+        // Calculate the date 7 days ago
+        const sevenDaysAgo = moment().subtract(7, 'days').toDate();
+
+        // Total number of users
+        const totalUsers = await User.countDocuments();
+
+        // Users by status
+        const createdUsers = await User.countDocuments({ status: 'created' });
+        const activeUsers = await User.countDocuments({ status: 'active' });
+        const blockedUsers = await User.countDocuments({ status: 'blocked' });
+
+        // Users registered in the last 7 days
+        const registeredLast7Days = await User.countDocuments({
+            registrationDate: { $gte: sevenDaysAgo }
+        });
+
+        // Respond with statistics
+        res.status(200).json({
+            success: true,
+            data: {
+                totalUsers,
+                createdUsers,
+                activeUsers,
+                blockedUsers,
+                registeredLast7Days
+            }
+        });
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 };
