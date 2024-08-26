@@ -13,6 +13,8 @@ const {
   deleteUserById,
   getUserById,
   getUserStatistics,
+  loginUserViaGoogle,
+  registerUserViaGoogle,
 } = require("../controllers/user"); // Adjust the path as necessary
 
 const router = express.Router();
@@ -29,5 +31,7 @@ router.put("/update-user/:userId", updateUserById);
 router.delete("/delete-user/:userId", deleteUserById);
 router.get("/get-user/:userId", getUserById);
 router.get("/user-stats", getUserStatistics);
+router.post("/loginwithgoogle", loginUserViaGoogle);
+router.post("/registerwithgoogle", registerUserViaGoogle);
 
 module.exports = router;

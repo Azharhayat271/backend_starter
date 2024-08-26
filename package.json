@@ -17,6 +17,7 @@
     "dotenv": "^16.4.5",
     "dumb-passwords": "^0.2.1",
     "express": "^4.19.2",
+    "firebase-admin": "^12.4.0",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
     "mongoose": "^7.7.0",
